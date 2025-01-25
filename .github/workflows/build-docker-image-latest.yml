@@ -1,0 +1,27 @@
+name: Docker Image build latest
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: 'Login to GitHub Container Registry'
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: roel
+        password: ${{secrets.GITHUB_TOKEN}}
+
+    - name: Build the Docker image
+      run: docker build -f docker/sun2000/Dockerfile . --tag ghcr.io/roel/sun2000:latest
+
+    - name: Push the Docker image
+      run: docker push ghcr.io/roel/sun2000:latest

@@ -22,13 +22,25 @@ import os
 from huawei_solar import AsyncHuaweiSolar
 from influxdb import InfluxDBClient
 
+
+def read_secret(variable_name):
+    if f'{variable_name}_FILE' in os.environ:
+        with open(os.environ.get(f'{variable_name}_FILE'), 'r') as secret_file:
+            secret = secret_file.read()
+    else:
+        secret = os.environ.get(variable_name, None)
+    return secret
+
+
 INFLUX_HOST = os.environ['INFLUX_HOST']
 INFLUX_DB = os.environ['INFLUX_DB']
 INFLUX_USER = os.environ['INFLUX_USER']
-INFLUX_PASS = os.environ['INFLUX_PASS']
+INFLUX_PASS = read_secret('INFLUX_PASS')
 
 SUN2000_HOST = os.environ['SUN2000_HOST']
 SUN2000_PORT = int(os.environ['SUN2000_PORT'])
+
+READ_INTERVAL = int(os.environ.get('READ_INTERVAL', 30))
 
 dbclient = InfluxDBClient(INFLUX_HOST, database=INFLUX_DB,
                           username=INFLUX_USER, password=INFLUX_PASS)
@@ -64,6 +76,6 @@ async def get_solar_data():
                 data.append(ms)
 
         dbclient.write_points(data)
-        time.sleep(30)
+        time.sleep(READ_INTERVAL)
 
 asyncio.run(get_solar_data())

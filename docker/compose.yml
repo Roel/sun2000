@@ -1,0 +1,14 @@
+services:
+  sun2000:
+    image: sun2000:latest
+    build:
+      context: ..
+      dockerfile: docker/sun2000/Dockerfile
+    env_file:
+      - ../environment.docker.env
+    secrets:
+      - influx_password
+
+secrets:
+  influx_password:
+    file: ./secrets/INFLUX_PASSWORD
