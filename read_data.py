@@ -34,8 +34,8 @@ def read_secret(variable_name):
 
 INFLUX_HOST = os.environ['INFLUX_HOST']
 INFLUX_DB = os.environ['INFLUX_DB']
-INFLUX_USER = os.environ['INFLUX_USER']
-INFLUX_PASS = read_secret('INFLUX_PASS')
+INFLUX_USERNAME = os.environ['INFLUX_USERNAME']
+INFLUX_PASSWORD = read_secret('INFLUX_PASSWORD')
 
 SUN2000_HOST = os.environ['SUN2000_HOST']
 SUN2000_PORT = int(os.environ['SUN2000_PORT'])
@@ -43,7 +43,7 @@ SUN2000_PORT = int(os.environ['SUN2000_PORT'])
 READ_INTERVAL = int(os.environ.get('READ_INTERVAL', 30))
 
 dbclient = InfluxDBClient(INFLUX_HOST, database=INFLUX_DB,
-                          username=INFLUX_USER, password=INFLUX_PASS)
+                          username=INFLUX_USERNAME, password=INFLUX_PASSWORD)
 
 
 async def get_solar_data():
