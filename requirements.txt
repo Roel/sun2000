@@ -6,9 +6,9 @@
 #
 backoff==2.2.1
     # via huawei-solar
-certifi==2024.12.14
+certifi==2025.6.15
     # via requests
-charset-normalizer==3.4.1
+charset-normalizer==3.4.2
     # via requests
 huawei-solar==2.3.0
     # via -r requirements.in
@@ -16,7 +16,7 @@ idna==3.10
     # via requests
 influxdb==5.3.2
     # via -r requirements.in
-msgpack==1.1.0
+msgpack==1.1.1
     # via influxdb
 pymodbus==3.6.9
     # via huawei-solar
@@ -26,15 +26,15 @@ pyserial-asyncio==0.6
     # via huawei-solar
 python-dateutil==2.9.0.post0
     # via influxdb
-pytz==2024.2
+pytz==2025.2
     # via
     #   huawei-solar
     #   influxdb
-requests==2.32.3
+requests==2.32.4
     # via influxdb
 six==1.17.0
     # via
     #   influxdb
     #   python-dateutil
-urllib3==2.3.0
+urllib3==2.5.0
     # via requests
