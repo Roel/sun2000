@@ -16,6 +16,8 @@ idna==3.11
     # via requests
 influxdb==5.3.2
     # via -r requirements.in
+influxdb_client==1.49.0
+    # via -r requirements.in
 msgpack==1.1.2
     # via influxdb
 pymodbus==3.11.4
