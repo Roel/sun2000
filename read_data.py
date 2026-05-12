@@ -19,7 +19,12 @@ import datetime
 import time
 import os
 
-from huawei_solar import AsyncHuaweiSolar
+from huawei_solar import (
+    create_device_instance,
+    create_tcp_client,
+)
+from huawei_solar import register_names as reg
+
 from influxdb import InfluxDBClient
 
 
@@ -47,31 +52,33 @@ dbclient = InfluxDBClient(INFLUX_HOST, database=INFLUX_DB,
 
 
 async def get_solar_data():
-    conn = await AsyncHuaweiSolar.create(SUN2000_HOST, port=SUN2000_PORT)
+    client = create_tcp_client(SUN2000_HOST, port=SUN2000_PORT)
+    device = await create_device_instance(client)
 
-    registers = [
-        'active_power',
-        'daily_yield_energy',
-        'accumulated_yield_energy',
-        'internal_temperature',
-        'grid_voltage',
-        'pv_01_voltage',
-        'pv_01_current',
-        'pv_02_voltage',
-        'pv_02_current'
-    ]
+    registers = {
+        "active_power": reg.ACTIVE_POWER,
+        "daily_yield_energy": reg.DAILY_YIELD_ENERGY,
+        "accumulated_yield_energy": reg.ACCUMULATED_YIELD_ENERGY,
+        "internal_temperature": reg.INTERNAL_TEMPERATURE,
+        "grid_voltage": reg.GRID_VOLTAGE,
+        "pv_01_voltage": reg.PV_01_VOLTAGE,
+        "pv_01_current": reg.PV_01_CURRENT,
+        "pv_02_voltage": reg.PV_02_VOLTAGE,
+        "pv_02_current": reg.PV_02_CURRENT,
+    }
 
     while True:
         data = []
 
-        for r in registers:
-            ms = {}
-            ms["time"] = int(datetime.datetime.now().strftime('%s')) * 10**9
-            result = await conn.get(r)
+        results = await device.batch_update(registers.values())
 
-            ms["measurement"] = r
+        for register, result in results.items():
+            ms = {}
+            ms["time"] = int(datetime.datetime.now().strftime("%s")) * 10**9
+
+            ms["measurement"] = register
             ms["fields"] = {"value": result.value}
-            ms['tags'] = {"unit": result.unit}
+            ms["tags"] = {"unit": result.unit}
             if result.value > 0:
                 data.append(ms)
 
