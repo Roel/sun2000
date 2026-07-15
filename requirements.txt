@@ -4,17 +4,17 @@
 #
 #    pip-compile --cert=None --client-cert=None --index-url=None --pip-args=None requirements.in
 #
-certifi==2026.5.20
+certifi==2026.6.17
     # via requests
-charset-normalizer==3.4.7
+charset-normalizer==3.4.9
     # via requests
-huawei-solar==3.0.5
+huawei-solar==3.0.6
     # via -r requirements.in
 idna==3.18
     # via requests
 influxdb==5.3.2
     # via -r requirements.in
-msgpack==1.1.2
+msgpack==1.2.1
     # via influxdb
 python-dateutil==2.9.0.post0
     # via influxdb
@@ -22,17 +22,15 @@ pytz==2026.2
     # via influxdb
 requests==2.34.2
     # via influxdb
-serialx==1.8.0
+serialx==1.8.2
     # via tmodbus
 six==1.17.0
     # via
     #   influxdb
     #   python-dateutil
-tenacity==9.1.4
-    # via tmodbus
-tmodbus[async-serial]==0.3.0
+tmodbus[async-serial]==0.4.1
     # via huawei-solar
-typing-extensions==4.15.0
+typing-extensions==4.16.0
     # via serialx
 urllib3==2.7.0
     # via requests
